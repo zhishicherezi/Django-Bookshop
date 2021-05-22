@@ -21,4 +21,3 @@ code_rar = {
 
 homelist = []
 homelist.append(code_rar.values())
-

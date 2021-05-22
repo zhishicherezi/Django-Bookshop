@@ -11,7 +11,7 @@ def get_code(request, code):
     }
     return render(request, template_name = 'code.html', context = ctx)
 def home(request):
-    # homelist = []
+    homelist = []
     # for i in homelist:
     #     homelist.append(models.code_rar)
     codes_d = {
