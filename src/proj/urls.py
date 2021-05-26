@@ -20,7 +20,7 @@ from books import views as book_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('cun/', code_view.get_code),
-    #path('', code_view.home),
+    path('', book_view.book_list),
     path('book/<int:book_id>', book_view.book),
     path('books/', book_view.book_list, name = "book-list"),
     path('book/', book_view.book, name="book"),
