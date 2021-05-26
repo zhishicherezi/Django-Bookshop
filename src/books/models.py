@@ -49,7 +49,8 @@ class Book(models.Model):
     book_photo = models.ImageField(
         verbose_name = 'book img')
     book_price = models.FloatField(
-        verbose_name = 'price')
+        verbose_name = 'price',
+        default = 100)
     author = models.ForeignKey(
         Author,
         on_delete=models.PROTECT,
@@ -113,7 +114,7 @@ class Book(models.Model):
     )
 
     def __str__(self) -> str:
-        return f"Название {self.book_name}"
+        return f"Название : {self.book_name} Автор : {self.author}"
     class Meta:
         verbose_name = 'Книга',
         verbose_name_plural = 'Книги'

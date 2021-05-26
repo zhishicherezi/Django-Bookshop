@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Справочники</title>
+</head>
+<body>
+    <h1>Список доступных справочников: </h1><br>
+    <a href="{% url 'authors' %}">Авторы</a><br>
+    <a href="{% url 'seriess' %}">Серии</a><br>
+    <a href="{% url 'genres' %}">Жанры</a><br>
+    <a href="{% url 'publishers' %}">Издатели</a><br>
+    {% for spr in spr_list %}
+        <li><a href="{% url 'spr' %}">{{ spr }} </a></li><br>
+        {% endfor%}
+    
+    
+</body>
+</html>

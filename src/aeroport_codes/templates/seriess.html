@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Серии Книг</title>
 </head>
 <body>
-    <h1>{{ city }}</h1><br>  
-    <a href="/">Вернуться к списку городов</a>
+    <h1>Список серий: </h1><br>
+    <ul>{% for series in seriess %}
+        <li><a href="{% url 'seriess' %}">{{ series }}</a></li>
+        {% endfor%}
+
+    </ul>
 </body>
 </html>
