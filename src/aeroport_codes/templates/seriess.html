@@ -9,9 +9,12 @@
 <body>
     <h1>Список серий: </h1><br>
     <ul>{% for series in seriess %}
-        <li><a href="{% url 'seriess' %}">{{ series }}</a></li>
+        <li><a href="{% url 'series' series.pk %}">{{ series }}  </a><a href="{% url 'update-series' series.pk %}"> || Update</a>
+            <a href="{% url 'delete-series' series.pk %}"> || Delete</a>
+        </li>
         {% endfor%}
-
+        <br>
+        <a href="{% url 'create-series'  %}"> + + +  Внести серию + + + </a>
     </ul>
 </body>
 </html>

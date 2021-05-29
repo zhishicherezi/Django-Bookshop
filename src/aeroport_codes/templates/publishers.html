@@ -9,9 +9,12 @@
 <body>
     <h1>Список доступных издательств: </h1><br>
     <ul>{% for publisher in publishers %}
-        <li><a href="{% url 'publishers' %}">{{ publisher }}</a></li>
+        <li><a href="{% url 'publisher' publisher.pk %}">{{ publisher }}  </a><a href="{% url 'update-publisher' publisher.pk %}"> || Update</a>
+            <a href="{% url 'delete-publisher' publisher.pk %}"> || Delete</a>
+        </li>
         {% endfor%}
-
+        <br>
+        <a href="{% url 'create-publisher'  %}"> + + +  Внести издательство + + + </a>
     </ul>
 </body>
 </html>

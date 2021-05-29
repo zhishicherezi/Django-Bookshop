@@ -45,7 +45,8 @@ class Publisher(models.Model):
         verbose_name_plural = 'Издательства'
 class Book(models.Model):
     book_name = models.CharField(max_length=100,
-        verbose_name = 'Название книги')
+        verbose_name = 'Название книги',
+        default='default')
     book_photo = models.ImageField(
         verbose_name = 'book img')
     book_price = models.FloatField(
@@ -68,7 +69,10 @@ class Book(models.Model):
     )
 
     created = models.DateTimeField(
-        verbose_name = 'Дата внесения в БД')
+        verbose_name = 'Дата внесения в БД',
+        auto_now_add=True,
+        auto_now = False
+    )
     published = models.IntegerField(
         verbose_name = 'Год издания',
         blank = True)

@@ -9,9 +9,12 @@
 <body>
     <h1>Список доступных авторов: </h1><br>
     <ul>{% for author in authors %}
-        <li><a href="{% url 'authors' %}">{{ author }}</a></li>
+        <li><a href="{% url 'author' author.pk %}">{{ author }}  </a><a href="{% url 'update-author' author.pk %}"> || Update</a>
+            <a href="{% url 'delete-author' author.pk %}"> || Delete</a>
+        </li>
         {% endfor%}
-
+        <br>
+        <a href="{% url 'create-author'  %}"> + + +  Внести автора + + + </a>
     </ul>
 </body>
 </html>
