@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title%}Book List{%endblock title%}
+{% block body %}
+    <h1>Our books </h1><br>
+    <a href="?filter=all">All</a><br>
+    <a href="?filter=sold">Sold</a><br>
+    <a href="?filter=active">Active</a><br>
+    <ul>{% for book in object_list %}
+        <li><a href="{% url 'books:book-view' book.pk %}"> {{ book }} </a>
+        {% endfor%}
+    </ul>
+    <a href="{% url 'books:books-view' %}">CRUD</a>
+{% endblock body %}

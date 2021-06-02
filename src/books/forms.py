@@ -4,25 +4,24 @@ from . import models
 
 
 # форма для новой книги
-# class CreateBookForm(forms.ModelForm):
-#     class Meta:
-#         model = models.Book
-#         fields = (
-#             'book_name',
-#             'book_photo',
-#             'book_price',
-#             'author',
-#             'series',
-#             'genre',
-#             'published',
-#             'pages',
-#             'pereplet',
-#             'ISBN',
-#             'weight',
-#             'age_protect',
-#             'publisher',
-#             'active',
-#         ) 
+class CreateBookForm(forms.ModelForm):
+    class Meta:
+        model = models.Book
+        fields = (
+            'book_name',
+            'book_price',
+            'author',
+            'series',
+            'genre',
+            'published',
+            'pages',
+            'pereplet',
+            'ISBN',
+            'weight',
+            'age_protect',
+            'publisher',
+            'active',
+        ) 
 
 class CreateAuthorForm(forms.ModelForm):
     class Meta:

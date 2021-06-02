@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title%}О книге{%endblock title%}
+{% block body %}
+<body>
+    <div class="card" style="width: 18rem;">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title"> {{ book.book_name }}</h5>
+          <p class="card-text"><h1>Автор {{ book.author }}</h1><br>
+            Цена {{ book.price }}<br>
+            Серия {{ book.series }}<br>  
+            Жанр {{ book.genre }}<br>  
+            Год издания {{ book.published }}<br>
+            Страниц {{ book.pages }}<br>
+            Твердый переплет {% if book.pereplet %} 
+            Да
+            {% else %} НЕТ 
+            {% endif %}<br>
+            ISBN {{ book.ISBN }}<br>
+            Вес {{ book.weight }}<br>
+            Возратсные ограничения {{ book.age_protect }}<br>
+            Издательство {{ book.publisher }}<br>
+            Доступна для заказа {% if book.active %} 
+            Да
+            {% else %} НЕТ 
+            {% endif %}<br>
+            Дата внесения {{ book.entry_date }}<br>
+            Обновлена {{ book.change_date }}<br></p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    
+</body>
+</html>
+
+{% endblock body %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title%}Book List{%endblock title%}
+{% block body %}
+    <h1>Наши книги </h1><br>
+    <a href="?filter=all" class='btn btn-secondary'>All</a><br>
+    <a href="?filter=sold" class='btn btn-info'>Sold</a><br>
+    <a href="?filter=active" class='btn btn-warning'>Active</a><br>
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Название</th>
+              <th scope="col">Редактировать</th>
+              <th scope="col">Удалить</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for book in object_list %}
+            <tr>
+              <th scope="row">{{ book.pk }}</th>
+              <td scope="col"><a href="{% url 'books:book-view' book.pk %}"> {{ book.book_name }}</a></td>
+              <td scope="col"><a href="{% url 'books:book_update' book.pk %}"> Update</a></td>
+              <td scope="col"><a href="{% url 'books:book_delete' book.pk %}"> Delete</a></td>
+            </tr>
+            {% endfor%}
+          </tbody>
+      </table>
+    <ul>
+       <a href="{% url 'books:book_create' %}" class='btn btn-danger'> Внести новую книгу</a><br>
+
+    </ul>
+</body>
+</html>
+{% endblock body %}

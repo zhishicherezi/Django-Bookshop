@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 # Create your models here.
 class Author(models.Model):
     author = models.CharField(
@@ -46,7 +46,7 @@ class Publisher(models.Model):
 class Book(models.Model):
     book_name = models.CharField(max_length=100,
         verbose_name = 'Название книги',
-        default='default')
+        default='default',)
     book_photo = models.ImageField(
         verbose_name = 'book img')
     book_price = models.FloatField(
@@ -119,6 +119,10 @@ class Book(models.Model):
 
     def __str__(self) -> str:
         return f"Название : {self.book_name} Автор : {self.author}"
+
+    def get_absolute_url(self):
+        return reverse('book-view', args = [self.pk])
+
     class Meta:
         verbose_name = 'Книга',
         verbose_name_plural = 'Книги'

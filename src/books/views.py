@@ -2,7 +2,10 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponseRedirect
 from . import models
 from . import forms
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.views.generic import ListView, DetailView, TemplateView, DeleteView, CreateView, UpdateView
+from django.views.generic import TemplateView
+
 # Create your views here.
 def book(request, book_id):
     book = models.Book.objects.get(pk=book_id)
@@ -288,3 +291,36 @@ def book_delete_publisher(request, publisher_id):
     else:
         return render(request, template_name = "publisher_delete.html", context = {})
 
+class Home(TemplateView):
+    template_name = 'books/home.html'
+    
+        
+class BookListView(ListView):
+    model = models.Book
+    template_name = 'books/book_list.html'
+    def get_queryset(self):
+        qs = super().get_queryset()
+        filter = (self.request.GET.get('filter'))
+        if filter == 'active':
+            return qs.filter(active=True)
+        elif filter == 'sold':
+            return qs.filter(active=False)
+        else:
+            return qs
+        
+
+class BookDetailView(DetailView):
+    model = models.Book
+
+class BookCreateView(CreateView):
+    model = models.Book
+    form_class = forms.CreateBookForm
+class BookUpdateView(UpdateView):
+    model = models.Book
+    form_class = forms.CreateBookForm
+    success_url = reverse_lazy('books:books-view')
+class BookDeleteView(DeleteView):
+    model = models.Book
+    success_url = reverse_lazy('books:books-view')
+class AuthorListView(ListView):
+    model = models.Author

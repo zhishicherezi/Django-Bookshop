@@ -7,14 +7,14 @@
     <title>Список авторов</title>
 </head>
 <body>
-    <h1>Список доступных авторов: </h1><br>
+    <h1>Список доступных авторов1: </h1><br>
     <ul>{% for author in authors %}
         <li><a href="{% url 'author' author.pk %}">{{ author }}  </a><a href="{% url 'update-author' author.pk %}"> || Update</a>
             <a href="{% url 'delete-author' author.pk %}"> || Delete</a>
         </li>
         {% endfor%}
         <br>
-        <a href="{% url 'create-author'  %}"> + + +  Внести автора + + + </a>
+        
     </ul>
 </body>
 </html>
