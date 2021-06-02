@@ -121,7 +121,7 @@ class Book(models.Model):
         return f"Название : {self.book_name} Автор : {self.author}"
 
     def get_absolute_url(self):
-        return reverse('book-view', args = [self.pk])
+        return reverse('books:book-view', args = [self.pk])
 
     class Meta:
         verbose_name = 'Книга',
