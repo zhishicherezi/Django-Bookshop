@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title%}Внести жанр{%endblock title%}
+{% block body %}
+<body>
+    <h1>Создать обьект</h1><br>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
+
+{% endblock body %}

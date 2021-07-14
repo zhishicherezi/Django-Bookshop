@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title%}Заказ №{{object.pk}}{%endblock title%}
+{% load template_tags %}
+
+{% block body %}
+<body>
+  <div class="container">
+    <div class="mx-auto">
+      <div class="card" style="width: 80%;">
+          <div class="card-body">
+              Пользователь: <a href="{% url 'accounts:profile' object.customer.pk %}"><b>{{ object.customer|upper }}</b></a>
+              <br>
+              Обновлен: {{ object.updated }}<br>
+              Создан: {{ object.created }}<br>
+              <br>
+              <h4>Статус заказа: {{object.status}} </h4>
+              <table class="table table-white table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Книга</th>
+                      <th scope="col">Количество</th>
+                      <th scope="col">Цена</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for good in object.cart.goods.all%}
+                    <tr>
+                      <th scope="row">{{ forloop.counter }}</th>
+                      <th scope="col"><small> {{good.book}} </small></th>
+              
+                      <td scope="col">{{good.quantity}}</td>
+                      <td scope="col">{{good.total_price}}</td>
+                        <tr>
+                          <td></td>
+                          <td colspan ="2"><H5><b>Общая сумма</b></H5></td>
+                          <td><h4><b>{{ object.cart.total_price}}</b></h4></td>
+                        </tr>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+              </table>
+              <br>
+              <b>Контактные данные: </b><br>
+              Телефон: {{ object.phone }}<br>
+              Страна: {{ object.country }}<br>
+              Город: {{ object.city }}<br>
+              Индекс: {{ object.index }}<br>
+              Адрес: {{ object.adress }}<br>
+              Дополнительно: {{ object.extra }}<br>
+              {% if user.is_staff%}
+                <a href="{% url 'orders:order-update' order.pk %}" class="btn btn-lg btn-block btn-primary">Править</a>
+              {%endif%}
+          </div>{% show_comments %}
+        </div>  
+    </div>
+  </div>
+</body>
+
+</html>
+
+{% endblock body %}

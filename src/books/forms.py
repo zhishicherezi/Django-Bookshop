@@ -8,6 +8,7 @@ class CreateBookForm(forms.ModelForm):
     class Meta:
         model = models.Book
         fields = (
+            'book_photo',
             'book_name',
             'book_price',
             'author',
@@ -21,6 +22,7 @@ class CreateBookForm(forms.ModelForm):
             'age_protect',
             'publisher',
             'active',
+            'rating'
         ) 
 
 class CreateAuthorForm(forms.ModelForm):
@@ -31,7 +33,7 @@ class CreateAuthorForm(forms.ModelForm):
         ) 
     def clean_form(self):
         value = self.cleaned_data.get('author')
-        if value == 'Ты лох':
+        if value == '5uk4':
             raise ValidationError('Не обзывайся')
 class CreateSeriesForm(forms.ModelForm):
     class Meta:

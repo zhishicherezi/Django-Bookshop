@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title%}Book List{%endblock title%}
+{% block body %}
+<style>
+    body {
+        width: 100%;
+        display: table;
+    }
+
+    .center {
+        text-align: center;
+    }
+</style>
+
+<h1><center>Стол Поступивших Заказов</center></h1><br>
+  <div class="container-xxl">
+    <div class="center">
+      <ul>
+        <a href="?filter=status" class='btn btn-secondary' >По статусу</a><br>
+      </ul>
+      <ul>
+        <a href="?filter=entry_date" class='btn btn-info'>Последние поступившие</a><br>
+      </ul>
+        
+    </div>
+    <table class="table table-white table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Адрес</th>
+              <th scope="col">Подробнее</th>
+              <th scope="col">Обновлен</th>
+              <th scope="col">Создан</th>
+              <th scope="col">Статус</th>
+              <th scope="col">Отменить</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for obj in object_list %}
+            <tr>
+              <th scope="row">{{ obj.pk }}</th>
+              <th scope="col"><small> {{ obj.city }} → {{ obj.adress }}</small></th>
+              
+
+              <td scope="col"><a href="{% url 'orders:order' obj.pk %}"> Подбронее</a></td>
+              <td scope="col"><a href=""></a>{{ obj.updated }}</td>
+              <td scope="col"><a href=""></a>{{ obj.created }}</td>
+              <td scope="col"><a href=""></a><b>{{ obj.status }}</b></td> 
+              <td scope="col"><a href="{% url 'orders:order-delete' obj.pk %}" class='btn btn-outline-danger' > Отмена</a></td>
+            </tr>
+            {% endfor%}
+          </tbody>
+      </table>
+
+  </div>
+</div>
+{% endblock body %}

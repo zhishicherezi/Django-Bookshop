@@ -5,322 +5,195 @@ from . import forms
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, TemplateView, DeleteView, CreateView, UpdateView
 from django.views.generic import TemplateView
+from django.contrib.auth.mixins import PermissionRequiredMixin
+
 
 # Create your views here.
-def book(request, book_id):
-    book = models.Book.objects.get(pk=book_id)
-    ctx = {
-        'book': book
-    }
-    return render(request, template_name = "book_detail.html", context = ctx)
-
-def book_list(request):
-    book_list = models.Book.objects.all()
-    ctx = {
-        'book_list': book_list
-    }
-    return render(request, template_name = "book_list.html", context = ctx)
-
-def author(request, author_id):
-    author = models.Author.objects.get(pk=author_id)
-    ctx = {
-        'author': author
-    }
-    return render(request, template_name = 'author.html', context = ctx)
-
-def authors(request):
-    authors = models.Author.objects.all()
-    ctx = {
-        'authors': authors
-    }
-    return render(request, template_name = 'authors.html', context = ctx)
-
-def series(request, series_id):
-    series = models.Series.objects.get(pk=series_id)
-    ctx = {
-        'series': series
-    }
-    return render(request, template_name = 'series.html', context = ctx)
-
-def seriess(request):
-    seriess = models.Series.objects.all()
-    ctx = {
-        'seriess': seriess
-    }
-    return render(request, template_name = 'seriess.html', context = ctx)
-
-def genre(request, genre_id):
-    genre = models.Genre.objects.get(pk=genre_id)
-    ctx = {
-        'genre': genre
-    }
-    return render(request, template_name = 'genre.html', context = ctx)
-
-def genres(request):
-    genres = models.Genre.objects.all()
-    ctx = {
-        'genres': genres
-    }
-    return render(request, template_name = 'genres.html', context = ctx)
-    
-def publisher(request, publisher_id):
-    publisher = models.Publisher.objects.get(pk=publisher_id)
-    ctx = {
-        'publisher': publisher
-    }
-    return render(request, template_name = 'publisher.html', context = ctx)   
-
-def publishers(request):
-    publishers = models.Publisher.objects.all()
-    ctx = {
-        'publishers': publishers
-    }
-    return render(request, template_name = 'publishers.html', context = ctx)
-
-
-def spr_list(request):
-    author = models.Author.objects.all()
-    series = models.Series.objects.all()
-    genre = models.Genre.objects.all()
-    publisher = models.Publisher.objects.all()
-    ctx = {
-        'author': author,
-        'series': series,
-        'genre': genre,
-        'publisher': publisher
-    }
-    return render(request, template_name = "spr_list.html", context = ctx)
-
-def book_create(request):
-    if request.method == 'POST':
-        form = forms.CreateBookForm(request.POST)
-        if form.is_valid():
-            book_name = form.cleaned_data.get('book_name')
-           # obj = models.Book.objects.create(book_name=book_name)
-            form.save()
-            return HttpResponseRedirect('/')
-        else:
-            pass
-
-    else:
-        form = forms.CreateBookForm()
-
-    ctx = {
-        'form': form,
-        'is_valid': form.is_valid()
-    }
-    return render(request, template_name = "book_create.html", context = ctx)
-
-def book_create_author(request):
-    if request.method == 'POST':
-        form = forms.CreateAuthorForm(request.POST)
-        if form.is_valid():
-            author = form.cleaned_data.get('author')
-            form.save()
-            return HttpResponseRedirect(reverse('authors'))
-        else:
-            pass
-
-    else:
-        form = forms.CreateAuthorForm()
-    ctx = {
-        'form': form,
-        'is_valid': form.is_valid()
-    }
-    return render(request, template_name = "author_create.html", context = ctx)
-
-def book_update_author(request, author_id):
-    if request.method == 'POST':
-        obj = models.Author.objects.get(pk=author_id)
-        form = forms.CreateAuthorForm(request.POST, instance=obj)
-        if form.is_valid():
-            author = form.cleaned_data.get('author')
-            form.save()
-            return HttpResponseRedirect(reverse(viewname='authors'))
-        else:
-            pass
-
-    else:
-        obj = models.Author.objects.get(pk=author_id)
-        form = forms.CreateAuthorForm(instance=obj)
-    ctx = {
-        'form': form,
-        'is_valid': form.is_valid()
-    }
-    return render(request, template_name = "author_create.html", context = ctx)
-
-def book_delete_author(request, author_id):
-    if request.method == 'POST':
-        obj = models.Author.objects.get(pk=author_id).delete()
-        return HttpResponseRedirect(reverse('authors'))
-    else:
-        return render(request, template_name = "author_delete.html", context = {})
-
-def book_create_series(request):
-    if request.method == 'POST':
-        form = forms.CreateSeriesForm(request.POST)
-        if form.is_valid():
-            series = form.cleaned_data.get('series')
-            form.save()
-            return HttpResponseRedirect(reverse('seriess'))
-        else:
-            pass
-
-    else:
-        form = forms.CreateSeriesForm()
-    ctx = {
-        'form': form,
-        'is_valid': form.is_valid()
-    }
-    return render(request, template_name = "series_create.html", context = ctx)
-
-def book_update_series(request, series_id):
-    if request.method == 'POST':
-        obj = models.Series.objects.get(pk=series_id)
-        form = forms.CreateSeriesForm(request.POST, instance=obj)
-        if form.is_valid():
-            series = form.cleaned_data.get('series')
-            form.save()
-            return HttpResponseRedirect(reverse(viewname='seriess'))
-        else:
-            pass
-
-    else:
-        obj = models.Series.objects.get(pk=series_id)
-        form = forms.CreateSeriesForm(instance=obj)
-    ctx = {
-        'form': form,
-        'is_valid': form.is_valid()
-    }
-    return render(request, template_name = "series_create.html", context = ctx)
-
-def book_delete_series(request, series_id):
-    if request.method == 'POST':
-        obj = models.Series.objects.get(pk=series_id).delete()
-        return HttpResponseRedirect(reverse('seriess'))
-    else:
-        return render(request, template_name = "series_delete.html", context = {})
-
-def book_create_genre(request):
-    if request.method == 'POST':
-        form = forms.CreateGenreForm(request.POST)
-        if form.is_valid():
-            genre = form.cleaned_data.get('genre')
-            form.save()
-            return HttpResponseRedirect(reverse('genres'))
-        else:
-            pass
-
-    else:
-        form = forms.CreateGenreForm()
-    ctx = {
-        'form': form,
-        'is_valid': form.is_valid()
-    }
-    return render(request, template_name = "genre_create.html", context = ctx)
-
-def book_update_genre(request, genre_id):
-    if request.method == 'POST':
-        obj = models.Genre.objects.get(pk=genre_id)
-        form = forms.CreateGenreForm(request.POST, instance=obj)
-        if form.is_valid():
-            genre = form.cleaned_data.get('genre')
-            form.save()
-            return HttpResponseRedirect(reverse(viewname='genres'))
-        else:
-            pass
-
-    else:
-        obj = models.Genre.objects.get(pk=genre_id)
-        form = forms.CreateGenreForm(instance=obj)
-    ctx = {
-        'form': form,
-        'is_valid': form.is_valid()
-    }
-    return render(request, template_name = "genre_create.html", context = ctx)
-
-def book_delete_genre(request, genre_id):
-    if request.method == 'POST':
-        obj = models.Genre.objects.get(pk=genre_id).delete()
-        return HttpResponseRedirect(reverse('genres'))
-    else:
-        return render(request, template_name = "genre_delete.html", context = {})
-
-def book_create_publisher(request):
-    if request.method == 'POST':
-        form = forms.CreatePublisherForm(request.POST)
-        if form.is_valid():
-            publisher = form.cleaned_data.get('publisher')
-            form.save()
-            return HttpResponseRedirect(reverse(viewname=publishers))
-        else:
-            pass
-
-    else:
-        form = forms.CreatePublisherForm()
-    ctx = {
-        'form': form,
-        'is_valid': form.is_valid()
-    }
-    return render(request, template_name = "publisher_create.html", context = ctx)
-
-def book_update_publisher(request, publisher_id):
-    if request.method == 'POST':
-        obj = models.Publisher.objects.get(pk=publisher_id)
-        form = forms.CreatePublisherForm(request.POST, instance=obj)
-        if form.is_valid():
-            publisher = form.cleaned_data.get('publisher')
-            form.save()
-            return HttpResponseRedirect(reverse(viewname='publishers'))
-        else:
-            pass
-
-    else:
-        obj = models.Publisher.objects.get(pk=publisher_id)
-        form = forms.CreatePublisherForm(instance=obj)
-    ctx = {
-        'form': form,
-        'is_valid': form.is_valid()
-    }
-    return render(request, template_name = "publisher_create.html", context = ctx)
-
-def book_delete_publisher(request, publisher_id):
-    if request.method == 'POST':
-        obj = models.Publisher.objects.get(pk=publisher_id).delete()
-        return HttpResponseRedirect(reverse('publishers'))
-    else:
-        return render(request, template_name = "publisher_delete.html", context = {})
 
 class Home(TemplateView):
     template_name = 'books/home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['low_price'] = models.Book.objects.filter(price__lte = 15)
+        return context    
     
-        
+            
 class BookListView(ListView):
     model = models.Book
     template_name = 'books/book_list.html'
+    paginate_by = 8
     def get_queryset(self):
         qs = super().get_queryset()
+        search =  self.request.GET.get('search')
+        print(self.request.GET.get('search'))
         filter = (self.request.GET.get('filter'))
+        order = (self.request.GET.get('order'))
         if filter == 'active':
             return qs.filter(active=True)
         elif filter == 'sold':
             return qs.filter(active=False)
+        elif order == 'entry_date':
+            return qs.order_by('created')[:4]
+        elif order == 'book_name':
+            return qs.order_by('book_name')
+        elif order == 'rating':
+            print(qs.order_by('-rating'))
+            return qs.order_by('-rating')[:50] 
+           
+        elif search:
+            return qs.filter(book_name__icontains=search)
         else:
             return qs
+            
         
+
 
 class BookDetailView(DetailView):
     model = models.Book
 
-class BookCreateView(CreateView):
+class BookCreateView(PermissionRequiredMixin, CreateView):
     model = models.Book
     form_class = forms.CreateBookForm
-class BookUpdateView(UpdateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    permission_required = 'books.add_book'
+class BookUpdateView(PermissionRequiredMixin, UpdateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    permission_required = 'books.change_book'
     model = models.Book
     form_class = forms.CreateBookForm
     success_url = reverse_lazy('books:books-view')
-class BookDeleteView(DeleteView):
+
+class BookDeleteView(PermissionRequiredMixin, DeleteView):
     model = models.Book
     success_url = reverse_lazy('books:books-view')
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    permission_required = 'books.delete_book'
+    
+
+# ОПИСАНИЕ СПРАВОЧНИКОВ АВТОР, ЖАНР, СЕРИЯ, ИЗДАТЕЛЬ
+
 class AuthorListView(ListView):
     model = models.Author
+    template_name = 'books/author_list.html'
+
+class AuthorDetailView(DetailView):
+    model = models.Author
+
+class AuthorCreateView(PermissionRequiredMixin, CreateView):
+    model = models.Author
+    form_class = forms.CreateAuthorForm
+    success_url = reverse_lazy('books:authors-view')
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    permission_required = 'books.add_author'
+    
+class AuthorUpdateView(PermissionRequiredMixin, UpdateView):
+    model = models.Author
+    form_class = forms.CreateAuthorForm
+    success_url = reverse_lazy('books:authors-view')
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    permission_required = 'books.change_author'
+
+class AuthorDeleteView(PermissionRequiredMixin, DeleteView):
+    model = models.Author
+    success_url = reverse_lazy('books:authors-view')
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    permission_required = 'books.delete_author'
+
+
+class GenreListView(ListView):
+    model = models.Genre
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if self.request.GET.get('order') == "alphabet":
+         print(type(qs))
+        return qs
+class GenreDetailView(DetailView):
+    model = models.Genre
+
+class GenreCreateView(PermissionRequiredMixin, CreateView):
+    model = models.Genre
+    form_class = forms.CreateGenreForm
+    success_url = reverse_lazy('books:genres-view')
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    permission_required = 'books.add_genre'
+    
+class GenreUpdateView(PermissionRequiredMixin, UpdateView):
+    model = models.Genre
+    form_class = forms.CreateGenreForm
+    success_url = reverse_lazy('books:genres-view')
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    permission_required = 'books.change_genre'
+class GenreDeleteView(PermissionRequiredMixin, DeleteView):
+    model = models.Genre
+    success_url = reverse_lazy('books:genres-view')
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    permission_required = 'books.delete_genre'
+
+class SeriesListView(ListView):
+    model = models.Series
+
+class SeriesDetailView(DetailView):
+    model = models.Series
+
+class SeriesCreateView(PermissionRequiredMixin, CreateView):
+    model = models.Series
+    form_class = forms.CreateSeriesForm
+    success_url = reverse_lazy('books:seriess-view')
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    permission_required = 'books.add_series'
+
+class SeriesUpdateView(PermissionRequiredMixin, UpdateView):
+    model = models.Series
+    form_class = forms.CreateSeriesForm
+    success_url = reverse_lazy('books:seriess-view')
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    permission_required = 'books.change_genre'
+
+class SeriesDeleteView(PermissionRequiredMixin, DeleteView):
+    model = models.Series
+    success_url = reverse_lazy('books:seriess-view')
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    permission_required = 'books.delete_genre'
+
+class PublisherListView(ListView):
+    model = models.Publisher
+
+class PublisherDetailView(DetailView):
+    model = models.Publisher
+
+class PublisherCreateView(PermissionRequiredMixin, CreateView):
+    model = models.Publisher
+    form_class = forms.CreatePublisherForm
+    success_url = reverse_lazy('books:publishers-view')
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    permission_required = 'books.add_publisher'
+
+class PublisherUpdateView(PermissionRequiredMixin, UpdateView):
+    model = models.Publisher
+    form_class = forms.CreatePublisherForm
+    success_url = reverse_lazy('books:publishers-view')
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    permission_required = 'books.change_publisher'
+
+class PublisherDeleteView(PermissionRequiredMixin, DeleteView):
+    model = models.Publisher
+    success_url = reverse_lazy('books:publishers-view')
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    permission_required = 'books.delete_publisher'
+

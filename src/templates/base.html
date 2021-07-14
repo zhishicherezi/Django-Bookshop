@@ -1,4 +1,5 @@
 {% load static %}
+
 <!doctype html>
 <html lang="ru">
   <head>
@@ -8,6 +9,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" >
+
 
     <title>{% block title%}Default title{%endblock title%}</title>
     <style>
@@ -32,29 +34,108 @@
         }
       </style> 
 </head>
-<body> <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'books:books-view' %}">Fixed navbar</a>
+<body> <nav class="navbar navbar-expand-md navbar-light fixed-top bg-white">
+    <div class="container-xl">
+      {% if user.is_staff %}
+      <a class="navbar-brand" href="{% url 'books:books-view' %}">CRUD</a>
+      {% endif %}
+      {% if user.is_anonymous %}
+      <a class='btn btn-outline-success' href="{% url 'accounts:login' %}">Вход</a>
+      {% endif %}
+      {% if user.is_authenticated %}
+      <a class='btn btn-outline-success' href="{% url 'accounts:logout' %}?next=/">Выход</a>
+      {% endif %}
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         {% include './top_menu.html' %}
-        <form class="d-flex">
-          <input class="form-control mr-2" type="search" placeholder="Поиск" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">ОК</button>
+        <form class="d-flex" action="{% url 'books:books-view' %}" method="GET">
+          <input class="form-control mr-2" type="text" name="search" placeholder="Поиск" aria-label="Search">
+          <button class="btn btn-outline-info" type="submit">ОК</button>
         </form>
       </div>
+      {% if user.is_authenticated %}
+      <div class="dropdown open">
+        <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{ user.first_name}}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="{% url 'accounts:profile' user.pk %}">Профиль</a>
+          <a class="dropdown-item" href="{% url 'orders:order-list' %}?filter=user">Заказы</a>
+          <a class="dropdown-item" href="{% url 'carts:cart-edit'%}">Корзина</a>
+        </div>
+      </div>
+      {% endif %}
     </div>
   </nav>
-  <main class="container">
-    <div class="bg-light p-5 rounded">
-    </div>
-</main>
+
     {% block body %} {% endblock body %}
     <script src="{% static 'js/popper.min.js' %}" ></script>
     <script src="{% static 'js/bootstrap.min.js' %}" ></script>
     {%block custom_scripts %} {%endblock custom_scripts %}
 </body>
+<style>
+
+  body {
+      width: 100%;
+      display: table;
+  }
+
+  .center {
+      text-align: center;
+  }
+  h4 {
+    background: rgba(192, 189, 189, 0.3); color: rgb(56, 54, 54);
+    background-size: 3.2em;
+    box-shadow: 0 0 15px 4px rgba(202, 199, 199, 0.3);
+  }
+  .hat {
+    margin-bottom: -150px; /* Отрицательный отступ между заголовком и текстом */
+   }
+
+   container {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+/* Bottom left text */
+.bottom-left {
+    position: absolute;
+    bottom: 8px;
+    left: 16px;
+}
+
+/* Top left text */
+.top-left {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+}
+
+/* Top right text */
+.top-right {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+}
+
+/* Bottom right text */
+.bottom-right {
+    position: absolute;
+    bottom: 8px;
+    right: 16px;
+}
+
+/* Centered text */
+.centered {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+</style>
+
 </body>
 </html>

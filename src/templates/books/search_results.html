@@ -1,0 +1,9 @@
+<h1>Search Results</h1>
+ 
+<ul>
+  {% for book in object_list %}
+    <li>
+      {{ book.book_name }}, {{ book.author }}
+    </li>
+  {% endfor %}
+</ul>

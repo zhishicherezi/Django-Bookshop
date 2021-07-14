@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+{% block title%}Django BookShop{%endblock title%}
+{% block body %}
+  <div class="container-xl">
+    <div class="container">
+      <img src="media/031dff7da83840db98518e63d61b6bdf.jpg" alt="Место для рекламы" width="100%" height="272">
+      <div class="centered"><h1><center>Наши Книги</center></h1></div>
+    
+    {% if user.is_staff %}
+    <a href="?order=book_name">All</a><br>
+    <a href="?filter=sold">Sold</a><br>
+    <a href="?filter=active">Active</a><br>
+    {% endif %}
+    <p></p>
+    <a class="btn btn-danger" href="?order=entry_date" role="button">4 новинки</a>
+    <a class="btn btn-danger" href="?order=rating" role="button">С высоким рейтингом</a><br><br>
+
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+  
+          <div class="row">
+            {% for book in object_list %}
+            <div class="col">
+              <div class="card h-100" style="width: 11rem; ">
+                <img src="{{ book.book_photo.url }}" class="card-img-top" style="height: 200" alt="...">
+                
+                <div class="card-body">
+                  <h5 class="card-title">{{ book.book_name }}</h5>
+                  <p class="card-text">{{ book.genre }} <br>
+                    Цена: {{book.book_price}}
+                    <div class="col-md-12">
+                      <label for="disabledRange" class="form-label" style="center"><center>Рейтинг: {{book.rating}}/10</center></label> 
+                      <input type="range" class="form-range" min="0" max="10" value="{{book.rating}}" id="disabledRange" disabled>
+                    </div>
+                  </p>
+                  <a href="{% url 'books:book-view' book.pk %}" class="btn btn-primary">Подробнее</a>
+                </div>
+                
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-xs-6 col-md-5"></div>
+    <div class="col-xs-6 col-md-4">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          {% if page_obj.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Назад</a></li>
+          {% endif %}
+          <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+          {% if page_obj.has_other_pages %}
+          <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+          <li class="page-item"><a class="page-link" href="?page=3">3</a></li>
+          {% endif %}
+
+          {% if page_obj.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+  
+    </div>
+    <div class="col-xs-6 col-md-4"></div>
+  </div>
+  
+  
+{% endblock body %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title%}Book List{%endblock title%}
+{% block body %}
+
+<h1><center>Жанры</center></h1><br>
+<div class="container-xl">
+  <div class="row">
+    <div class="col-sm-12 col-lg-11">
+      <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            {% if user.is_staff %}
+            <a class="btn btn-danger" href="{% url 'books:genre_create' %}" role="button">Внести жанр</a><br><br>
+            {% endif %}
+            <div class="row">
+              {% for genre in object_list %}
+              <div class="col">
+                <div class="card h-80" style="width: 10rem;">
+                  <div class="card-body">
+                    <h5 class="card-title"><font color=f>{{ genre.genre }}</font></h5>
+                    <p class="card-text">
+                      {% if user.is_staff %}
+                      <a href="{% url 'books:genre_update' genre.pk %}" class="btn btn-sm btn-warning">Редактировать</a>
+                    </p>
+                      <a href="{% url 'books:genre_delete' genre.pk %}" class="btn btn-sm btn-danger">Удалить</a>
+                       {%endif%}
+                  </div>
+                  
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-xs-6 col-md-5"></div>
+  <div class="col-xs-6 col-md-4">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        {% if page_obj.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Назад</a></li>
+        {% endif %}
+        <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+        <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+        <li class="page-item"><a class="page-link" href="?page=3">3</a></li>
+        {% if page_obj.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+
+  </div>
+</div>
+
+
+{% endblock body %}

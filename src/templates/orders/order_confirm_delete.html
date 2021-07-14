@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title%}Del book{%endblock title%}
+{% block body %}
+<div class="container">
+    <body>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <h1>Вы уверены что хотите отменить заказ? 
+                <button type="submit" class="btn btn-lg btn-primary" > Да</button>
+                <a class='btn btn-lg btn-secondary' href="{% url 'orders:order-list' %}?filter=user"> Нет</a>
+            </h1>
+            <br>
+        </form>
+    </body>
+</div>
+
+{% endblock body %}

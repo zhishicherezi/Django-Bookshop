@@ -1,0 +1,27 @@
+<p>
+    {% if not user.is_anonymous %}
+    <form action="{% url 'comments:create-comment' %}" method="POST">
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Прокомментировать</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="comment_text"></textarea>
+            <input type="hidden" name="next_step" value="{{ next_step }}">
+            <input type="hidden" name="content_type_id" value="{{ content_type_id }}">
+            <input type="hidden" name="object_id" value="{{ object_id }}">
+
+        </div>
+          <button type="submit" class= "btn btn-info" >Оставить</button>
+          {% csrf_token %}
+    </form>
+    {% endif %}
+        <p>
+    <b><h4>Комментарии</h4></b>
+    <br>
+        <ul>
+            {% for comment in comments %}
+            <li> <b>{{ comment.author }}</b> <small>   {{ comment.created }}</small> <br> <br> <font color=rgba(0,0,0.6,1) >{{ comment.text }}</font></li>
+            <br>
+            {% endfor %}
+            
+        </ul>
+    </p>
+</p>

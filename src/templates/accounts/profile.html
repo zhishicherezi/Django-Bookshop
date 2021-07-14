@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title%}Профиль{%endblock title%}
+{% block body %}
+  <div class="container-sm">
+    <div class="row background-row">
+      <div class="">
+        <div class="top-cover"></div>
+        <p class="top-name">
+          <div class="card text-center" style="width: 100%;">
+          <div class="card-body">
+            <h5 class="card-title"></h5>
+            <p class="card-text" style="color:red;"><h1>{{ customuser.username|upper }}</h1><br>
+              {% if user.username == customuser.username or user.is_staff %}
+              <b>Пароль:</b>  ***********<a href="{% url 'accounts:pwrdchange' %}">  Изменить</a><br>
+            
+              <b>EMail:  </b>  {{ object.email }}<br>
+              <b>Имя:  </b> {{ object.first_name }}<br>  
+              <b>Фамилия:  </b> {{ object.last_name }}<br>  
+              <b>Телефон:  </b> {{ object.phone }}<br>  
+              <b>Группа:  </b>
+              {% if user.is_staff%}
+               Менеджер
+               {% else %}
+               Пользователь
+               {% endif%}
+               <br>  
+               <b>Страна:  </b> {{ object.country }}<br>
+               <b>Город:  </b> {{ object.city }}<br>
+               <b>Индекс:  </b> {{ object.index }}<br>
+               <b>Адрес:  </b> {{ object.adress1 }}<br>
+               <b>Дополнительынй Адрес:  </b> {{ object.adress2 }}<br>
+               <b>Дополнительная инф.:  </b> {{ object.extra }}<br></p>
+
+               {% if user.is_staff or user.username == customuser.username %}
+
+   
+                  <div class="dropdown dropright dropup">
+                    <a href="{% url 'accounts:profile-upd' user.pk %}" button type="submit" class="btn btn-info">Редактировать</a> 
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-expanded="false">
+                      Заказы
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                      {% for order in object.orders.all%}
+
+                      <li><a class="dropdown-item" href="{% url 'orders:order' order.pk %}">{{forloop.counter}}. {{order.created}}</a></li>
+
+                      {%endfor%}
+                    </ul>
+                  </div>
+               {% endif %}
+               {% endif %}
+          </div>
+        </div></p>
+    </div>
+   </div>
+  </div>
+</div>
+   
+
+
+{% endblock body %}

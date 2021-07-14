@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title%}Book Cart{%endblock title%}
+{% block body %}
+
+<h1><center>Сформировать заказ</center></h1>
+<div class="container-xl">
+
+<form action="{% url 'carts:update-cart' %}" method="post">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Обложка </th>
+        <th scope="col">Название</th>
+        <th scope="col">Количество</th>
+        <th scope="col" width="100">Цена, руб.</th>
+        <th scope="col">Удалить</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for good in object.goods.all %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td scope="col">
+          <div class="card" style="width: 14rem;">
+            <img src="{{ good.book.book_photo.url }}" class="card-img-top" alt="...">
+          </div>
+        </td>
+        <td>{{ good.book.book_name }}</td>
+        <td>
+          <div class="mb-3">
+            <input type="number" name="quantitygood_{{ good.pk }}" min="1" step="1" class="form-control" value="{{ good.quantity }}">
+          </div>
+        </td>
+        <td>{{ good.total_price }}</td>
+        <td> <form action="{% url 'carts:book-delete-in-cart' good.pk%}" method="post">{% csrf_token %} <button type="submit" class="btn btn-sm btn-danger">Delete</button></form></td>
+      </tr>
+      {%endfor %}
+      <tr>
+        <tr>
+          <td></td>
+          <td colspan ="3"><H4><b>Окончательная стоимость:</b></H3></td>
+          <td><h4><b>{{ object.total_price}}</b></h4></td>
+      </tr>
+      </tr>
+    </tbody>
+  </table>
+  <button type="submit" class="btn btn-lg btn-outline-info" name="submit" value="save_cart" style="float: right;">Сохранить </button>
+  <button type="submit" class="btn btn-lg btn-info" name="submit" value="create_order" style="float: right;">Оставить заказ </button>
+</form>
+
+<h1><center>Данные для Заказа</center></h1>
+<form action="{% url 'orders:new-order' %}" method="POST">
+    {{ form|crispy }}
+    {% csrf_token %}
+<button type="submit" class="btn btn-info">Заказать</button>
+</form>
+</div>
+{% endblock body %}
+{% if user.is_authenticated or article.article_access %}
+    <p>{{ article.article_title }}</p>
+    <p>{{ article.article_text }}</p>
+    ...
+{% else %}
+    <p>"Данная запись доступна только зарегистрированным пользователям, <a href="{% url 'customer:login' %}">войдите</a> или
+        <a href="{% url 'customer:register' %}">зарегистрируйтесь".</a></p>
+{% endif %}

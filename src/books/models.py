@@ -48,7 +48,9 @@ class Book(models.Model):
         verbose_name = 'Название книги',
         default='default',)
     book_photo = models.ImageField(
-        verbose_name = 'book img')
+        verbose_name = 'book img',
+        upload_to='books/'    
+    )
     book_price = models.FloatField(
         verbose_name = 'price',
         default = 100)
@@ -115,6 +117,9 @@ class Book(models.Model):
         verbose_name='Дата правки',
         auto_now=True,
         auto_now_add=False
+    )
+    rating = models.PositiveSmallIntegerField(
+        default=5,
     )
 
     def __str__(self) -> str:

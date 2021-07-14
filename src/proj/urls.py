@@ -15,12 +15,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from books.views import Home
-
+from books.views import BookListView
+from django.conf.urls.static import static
+from django.conf import settings
+from django.contrib.auth import views as auth_views
+import django.contrib.auth.urls
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('s-admin/', admin.site.urls),
     path('books/', include('books.urls', namespace='books')),
-    path('', Home.as_view(), name = 'home'),
+    path('', BookListView.as_view(template_name = 'books/home.html'), name ='home'),
+    path('', include('django.contrib.auth.urls')),
+    path('', include('accounts.urls', namespace='accounts')),
+    path('carts/', include('carts.urls', namespace='carts')),
+    path('orders/',include('orders.urls',namespace='orders')),
+    path('comments/',include('comments.urls',namespace='comments'))
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

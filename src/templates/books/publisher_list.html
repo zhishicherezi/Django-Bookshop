@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title%}Book List{%endblock title%}
+{% block body %}
+    <h1><center>Издательства</center></h1><br>
+    <div class="container-xl">
+      <table class="table table-inverse">
+        <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Название</th>
+              <th scope="col">Редактировать</th>
+              <th scope="col">Удалить</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for publisher in object_list %}
+            <tr>
+              <th scope="row">{{ publisher.pk }}</th>
+              <td scope="col"><a href="{% url 'books:publisher-view' publisher.pk %}"> {{ publisher.publisher }}</a></td>
+              <td scope="col"><a href="{% url 'books:publisher_update' publisher.pk %}"> Update</a></td>
+              <td scope="col"><a href="{% url 'books:publisher_delete' publisher.pk %}"> Delete</a></td>
+            </tr>
+            {% endfor%}
+          </tbody>
+      </table>
+    <ul>
+       <a href="{% url 'books:publisher_create' %}" class='btn btn-danger'> Внести нового издателя</a><br>
+
+    </ul>
+    </div>
+</body>
+</html>
+{% endblock body %}

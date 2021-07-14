@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title%}Book Cart{%endblock title%}
+{% block body %}
+<h1><center>Книжная корзина</center></h1>
+<div class="container-xl">
+  <form action="{% url 'carts:update-cart' %}" method="post">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Обложка </th>
+        <th scope="col">Название</th>
+        <th scope="col" width="100">Количество</th>
+        <th scope="col" width="100">Цена, руб.</th>
+        <th scope="col">Удалить</th>
+      </tr>
+
+    </thead>
+    <tbody>
+        {% for good in object.goods.all %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td scope="col">
+          <div class="card" style="width: 14rem;">
+            <img src="{{ good.book.book_photo.url }}" class="card-img-top" alt="...">
+          </div>
+        </td>
+        <td>{{ good.book.book_name }}</td>
+        <td>
+          
+          <div class="mb-3">
+            <input type="number" name="quantitygood_{{ good.pk }}" min="1" step="1" class="form-control" value="{{ good.quantity }}">
+          </div>
+        </td>
+        <td>{{ good.total_price }}</td>
+        <td> <form action="{% url 'carts:book-delete-in-cart' good.pk%}" method="post">{% csrf_token %} <button type="submit" class="btn btn-sm btn-danger">Delete</button></form></td>
+      </tr>
+      {%endfor %}
+      <tr>
+          <td></td>
+          <td colspan ="3"><H4><b>Окончательная стоимость:</b></H3></td>
+          <td><h4><b>{{ object.total_price}}</b></h4></td>
+      </tr>
+    </tbody>
+  </table>
+  <button type="submit" class="btn btn-lg btn-outline-info" name="submit" value="save_cart" style="float: right;">Сохранить </button>
+  {% if user.is_authenticated%}
+  <button type="submit" class="btn btn-lg btn-info" name="submit" value="create_order" style="float: right;">Оставить заказ </button>
+  
+  {% else %}
+  <a class='btn btn-lg btn-outline-success' href="{% url 'accounts:login' %}?next={% url 'carts:cart-edit'%}">Войти и оставить заказ</a>
+</form>
+  {% endif %}
+
+
+</form>
+</div>
+{% endblock body %}

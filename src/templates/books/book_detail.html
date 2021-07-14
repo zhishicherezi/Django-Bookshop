@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load template_tags %}
+{% block title%}О книге{%endblock title%}
+{% block body %}
+<body>
+  <div class="container-xl">
+  <div class="card mb-3" style="width: 100%;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src="{{ book.book_photo.url }}" class="card-img-top" alt="...">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+        <font color="black" face="Arial">
+          <h5 class="card-title">Автор {{ book.author }} </h5>
+                <p class="card-text"><h1>{{ book.book_name }}</h1><br>
+                  <b>Цена: </b> {{ book.book_price }}<br>
+                  <b>Серия: </b> {{ book.series }}<br>  
+                  <b>Жанр: </b> {{ book.genre }}<br>  
+                  <b>Год издания: </b>{{ book.published }}<br>
+                  <b>Страниц:</b> {{ book.pages }}<br>
+                  Твердый переплет: {% if book.pereplet %} 
+                  Да
+                  {% else %} Нет
+                  {% endif %}<br>
+                  ISBN: {{ book.ISBN }}<br>
+                  Вес: {{ book.weight }}<br>
+                  <b>Возратсные ограничения: </b> {{ book.age_protect }}<br>
+                  Издательство: {{ book.publisher }}<br>
+                  Доступна для заказа: {% if book.active %} 
+                  Да
+                  {% else %} Нет
+                  {% endif %}<br>
+                  Дата внесения: {{ book.entry_date }}<br>
+                  Обновлена: {{ book.change_date }}<br></p>
+                  <div class="col-md-4">
+                    <label for="disabledRange" class="form-label" style="center"><center>Рейтинг: {{book.rating}}/10</center></label> 
+                    <input type="range" class="form-range" min="0" max="10" value="{{book.rating}}" id="disabledRange" disabled>
+                  </div>
+                  
+                 <a href="{% url 'carts:cart-edit' %}?book_id={{ book.pk }}" class="btn btn-lg btn-block btn-primary">В корзину</a>
+                </font>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% show_comments%}
+      </div>
+      
+{% endblock body %}
