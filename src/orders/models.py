@@ -12,7 +12,8 @@ class OrderStatus(models.Model):
     status = models.CharField(
         verbose_name='Статус',
         max_length=35,
-        default='new',
+        default='Новый',
+
     )
     def __str__(self):
         return f"{self.status}"
@@ -75,5 +76,5 @@ class Order(models.Model):
         OrderStatus,
         on_delete=models.PROTECT,
         blank=True,
-        null=True
+        null=True,
     )

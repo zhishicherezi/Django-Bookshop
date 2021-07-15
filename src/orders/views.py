@@ -24,7 +24,7 @@ class CreateOrderView(FormView):
         adress = self.request.user.adress1
         extra = self.request.user.extra
 
-        return {'phone': phone, 'country': country, 'city':city, 'index':index, 'adress':adress, 'extra': extra}
+        return {'phone': phone, 'country': country, 'city':city, 'index':index, 'adress':adress, 'extra': extra,}
 
     def form_valid(self, form):
         cart_id = self.request.session.get('cart_id')
@@ -44,6 +44,7 @@ class CreateOrderView(FormView):
         adress = form.cleaned_data.get('adress')
         extra = form.cleaned_data.get('extra')
         customer = self.request.user
+        status = models.OrderStatus.objects.get(pk=1)
         user_id = self.request.session.get('_auth_user_id')
         order = models.Order.objects.create(
             cart=cart,
@@ -54,7 +55,8 @@ class CreateOrderView(FormView):
             index=index,
             adress=adress,
             extra=extra,
-            customer=customer
+            customer=customer,
+            status=status
         )
         self.request.session.pop('cart_id')
         return super().form_valid(form)
