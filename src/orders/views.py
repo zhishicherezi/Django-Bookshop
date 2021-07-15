@@ -44,7 +44,7 @@ class CreateOrderView(FormView):
         adress = form.cleaned_data.get('adress')
         extra = form.cleaned_data.get('extra')
         customer = self.request.user
-        status = models.OrderStatus.objects.get(pk=1)
+        status = models.OrderStatus.objects.get(status='Новый')
         user_id = self.request.session.get('_auth_user_id')
         order = models.Order.objects.create(
             cart=cart,
