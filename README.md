@@ -9,5 +9,5 @@ Home, Book Detail, Profile, and more pages using HTML, CSS, Bootstrap, Django Te
 Creating an order (80% scale)
 ![alt text](корзина.png "Cart -> Order")​
 
-Homepage
+Homepage (Manager View)
 ![alt text](главная.png "Homepage")​
