@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 from pathlib import Path
 from . import local_settings
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -45,7 +46,6 @@ INSTALLED_APPS = [
     'orders',
     'comments',
     'mailings',
-    'JWTAuth',
     'django_celery_beat',
     'django_celery_results'
     
@@ -149,7 +149,10 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = '/'
 
-AUTH_USER_MODEL = 'accounts.CustomUser'
+AUTH_USER_MODEL = 'accounts.CustomUser' #стандартная модель пользователя
+
+# AUTH_USER_MODEL = 'JWTAuth.User'  #""" Новая модель аутентификации на основе JWT"""
+
 
 # celery
 broker_url = 'amqp://guest:guest@localhost:8000//'
@@ -157,3 +160,27 @@ broker_url = 'amqp://guest:guest@localhost:8000//'
 CELERY_TIMEZONE = "Europe/Minsk"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
+
+
+
+
+# SENTRY SETTINGS
+sentry_sdk.init(
+    dsn=local_settings.dsn,
+    integrations=[DjangoIntegration()],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production,
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True,
+
+    # By default the SDK will try to use the SENTRY_RELEASE
+    # environment variable, or infer a git commit
+    # SHA as release, however you may want to set
+    # something more human-readable.
+    # release="myapp@1.0.0",
+)

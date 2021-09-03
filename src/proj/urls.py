@@ -23,6 +23,10 @@ from . import serializer_views
 
 router = routers.DefaultRouter()
 router.register(r'books-api', serializer_views.BookViewSet)
+from django.urls import path
+
+def trigger_error(request):
+    division_by_zero = 1 / 0
 
 urlpatterns = [
     path('s-admin/', admin.site.urls),
@@ -34,6 +38,7 @@ urlpatterns = [
     path('orders/',include('orders.urls',namespace='orders')),
     path('comments/',include('comments.urls',namespace='comments')),
     path('', include(router.urls)),
+    path('sentry-debug/', trigger_error),
 
 
 ]
