@@ -55,9 +55,8 @@ class Book(models.Model):
     book_price = models.FloatField(
         verbose_name = 'price',
         default = 100)
-    author = models.ForeignKey(
+    author = models.ManyToManyField(
         Author,
-        on_delete=models.PROTECT,
         default = 1
     )
     series = models.ForeignKey(
@@ -67,7 +66,7 @@ class Book(models.Model):
     )
     genre = models.ForeignKey(
         Genre,
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
         default = 1
     )
 
