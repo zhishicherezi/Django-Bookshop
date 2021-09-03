@@ -13,7 +13,4 @@ def show_comments(context):
     comments = models.Comment.objects.filter(content_type=content_type, object_id=obj.pk)
     return {'obj': obj, 'comments': comments, 'next_step': next_step, 'content_type_id': content_type_id, 'object_id': obj.pk}
 
-@register.simple_tag
-def timer():
-    return 'kek'
 

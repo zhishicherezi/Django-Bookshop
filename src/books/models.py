@@ -49,7 +49,8 @@ class Book(models.Model):
         default='default',)
     book_photo = models.ImageField(
         verbose_name = 'book img',
-        upload_to='books/'    
+        upload_to='books/',
+        blank=True    
     )
     book_price = models.FloatField(
         verbose_name = 'price',

@@ -18,8 +18,11 @@ from django.urls import path, include
 from books.views import BookListView
 from django.conf.urls.static import static
 from django.conf import settings
-from django.contrib.auth import views as auth_views
-import django.contrib.auth.urls
+from rest_framework import routers
+from . import serializer_views
+
+router = routers.DefaultRouter()
+router.register(r'books-api', serializer_views.BookViewSet)
 
 urlpatterns = [
     path('s-admin/', admin.site.urls),
@@ -29,9 +32,12 @@ urlpatterns = [
     path('', include('accounts.urls', namespace='accounts')),
     path('carts/', include('carts.urls', namespace='carts')),
     path('orders/',include('orders.urls',namespace='orders')),
-    path('comments/',include('comments.urls',namespace='comments'))
+    path('comments/',include('comments.urls',namespace='comments')),
+    path('', include(router.urls)),
+
 
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

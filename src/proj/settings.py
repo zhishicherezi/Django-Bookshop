@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'books',
     'crispy_forms',
     'currencies',
@@ -43,6 +44,10 @@ INSTALLED_APPS = [
     'carts',
     'orders',
     'comments',
+    'mailings',
+    'JWTAuth',
+    'django_celery_beat',
+    'django_celery_results'
     
 ]
 
@@ -146,4 +151,9 @@ LOGIN_REDIRECT_URL = '/'
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
+# celery
+broker_url = 'amqp://guest:guest@localhost:8000//'
 
+CELERY_TIMEZONE = "Europe/Minsk"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60

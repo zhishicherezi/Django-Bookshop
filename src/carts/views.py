@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from . import models, forms
 from books import models as books_models
 from django.urls import reverse_lazy
+from django.core.mail import send_mail
 
 class CartView(UpdateView):
     template_name = 'carts/cart-edit.html'
@@ -63,7 +64,6 @@ class CartUpdate(View):
             )
             if created:
                 self.request.session['cart_id'] = cart.pk
-            
             goods = cart.goods.all()
             for key, value in request.POST.items():
                 if 'quantitygood_' in key:
