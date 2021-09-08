@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title%}Профиль{%endblock title%}
+{% block body %}
+  <div class="container-sm">
+    <div class="row background-row">
+      <div class="">
+        <div class="top-cover"></div>
+        <p class="top-name">
+          <div class="card text-center" style="width: 100%;">
+          <div class="card-body">
+            <h5 class="card-title"></h5>
+            <p class="card-text" style="color:red;"><h1>{{ user.username|upper }}</h1><br>
+              {% if user.username == request.user.username or user.is_staff %}
+              <b>Пароль:</b>  ***********<a href="{% url 'authentication:pwrdchange' %}">  Изменить</a><br>
+            
+              <b>EMail:  </b>  {{ user.email }}<br>
+              <b>Имя:  </b> {{ user.first_name }}<br>  
+              <b>Фамилия:  </b> {{ user.last_name }}<br>  
+              <b>Телефон:  </b> {{ user.phone }}<br>  
+              <b>Группа:  </b>
+              {% if user.is_staff%}
+               Менеджер
+               {% else %}
+               Пользователь
+               {% endif%}
+               <br>  
+               <b>Страна:  </b> {{ user.country }}<br>
+               <b>Город:  </b> {{ user.city }}<br>
+               <b>Индекс:  </b> {{ user.index }}<br>
+               <b>Адрес:  </b> {{ user.adress1 }}<br>
+               <b>Дополнительынй Адрес:  </b> {{ user.adress2 }}<br>
+               <b>Дополнительная инф.:  </b> {{ user.extra }}<br></p>
+
+               {% if user.username == request.user.username or user.is_staff %}
+
+   
+                  <div class="dropdown dropright dropup">
+                    <a href="{% url 'authentication:profile-upd' user.pk %}" button type="submit" class="btn btn-info">Редактировать</a> 
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-expanded="false">
+                      Заказы
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                      {% for order in user.orders.all%}
+
+                      <li><a class="dropdown-item" href="{% url 'orders:order' order.pk %}">{{forloop.counter}}. {{order.created}}</a></li>
+
+                      {%endfor%}
+                    </ul>
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-expanded="false">
+                      Отобразить JWT Token
+                      (экспериментально)
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                      <li><a class="dropdown-item" >{{user.token}}</li>
+                    </ul>
+                  </div>
+               {% endif %}
+               {% endif %}
+          </div>
+        </div></p>
+    </div>
+   </div>
+  </div>
+</div>
+   
+
+
+{% endblock body %}

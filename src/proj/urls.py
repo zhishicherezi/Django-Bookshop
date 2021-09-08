@@ -33,12 +33,13 @@ urlpatterns = [
     path('books/', include('books.urls', namespace='books')),
     path('', BookListView.as_view(template_name = 'books/home.html'), name ='home'),
     path('', include('django.contrib.auth.urls')),
-    path('', include('accounts.urls', namespace='accounts')),
+    # path('', include('accounts.urls', namespace='accounts')),
     path('carts/', include('carts.urls', namespace='carts')),
     path('orders/',include('orders.urls',namespace='orders')),
     path('comments/',include('comments.urls',namespace='comments')),
     path('', include(router.urls)),
-    path('sentry-debug/', trigger_error),
+    path('sentry-debug/', trigger_error), #"""sentry error trigger"""
+    path('authentication/', include('authentication.urls', namespace='authentication')), #""" API аутентификации """
 
 
 ]

@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from books import models as book_models
-from accounts.models import CustomUser
+# from accounts.models import CustomUser
+from authentication.models import User as CustomUser
 User = get_user_model()
 
 

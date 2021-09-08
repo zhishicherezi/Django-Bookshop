@@ -16,6 +16,7 @@ from . import local_settings
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -38,17 +39,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'books',
     'crispy_forms',
     'currencies',
-    'accounts',
+    # 'accounts',
     'carts',
     'orders',
     'comments',
     'mailings',
     'django_celery_beat',
-    'django_celery_results'
-    
+    'django_celery_results',
+    'authentication',
 ]
 
 MIDDLEWARE = [
@@ -89,6 +91,21 @@ TEMPLATES = [
 WSGI_APPLICATION = 'proj.wsgi.application'
 
 
+
+#REST BACKENDS SETTINGS
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+}
+
+
+
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -103,7 +120,7 @@ WSGI_APPLICATION = 'proj.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'django_db',
+        'NAME': 'django_jwt_db_new',
         'USER' : 'postgres',
         'PASSWORD' : 'postgres',
         'HOST' : '127.0.0.1',
@@ -161,14 +178,15 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = '/'
 
-AUTH_USER_MODEL = 'accounts.CustomUser' #стандартная модель пользователя
+# AUTH_USER_MODEL = 'accounts.CustomUser' #стандартная кастомизированая модель пользователя
 
-# AUTH_USER_MODEL = 'JWTAuth.User'  #""" Новая модель аутентификации на основе JWT"""
+AUTH_USER_MODEL = 'authentication.User'
 
 
-# celery
+
+# celery settings
+
 broker_url = 'amqp://guest:guest@localhost:8000//'
-
 CELERY_TIMEZONE = "Europe/Minsk"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
@@ -180,19 +198,8 @@ CELERY_TASK_TIME_LIMIT = 30 * 60
 sentry_sdk.init(
     dsn=local_settings.dsn,
     integrations=[DjangoIntegration()],
-
-    # Set traces_sample_rate to 1.0 to capture 100%
-    # of transactions for performance monitoring.
-    # We recommend adjusting this value in production,
-    traces_sample_rate=1.0,
-
-    # If you wish to associate users to errors (assuming you are using
-    # django.contrib.auth) you may enable sending PII data.
+    traces_sample_rate=0.1,
     send_default_pii=True,
-
-    # By default the SDK will try to use the SENTRY_RELEASE
-    # environment variable, or infer a git commit
-    # SHA as release, however you may want to set
-    # something more human-readable.
-    # release="myapp@1.0.0",
 )
+
+

@@ -2,7 +2,6 @@ from django.db import models
 from django.db.models.fields import CharField
 from django.db.models.fields.related import ForeignKey
 from carts import models as carts_models
-from accounts import models as acc_models
 from django.contrib.auth import get_user_model
 
 User = get_user_model()

@@ -57,7 +57,7 @@ class Book(models.Model):
         default = 100)
     author = models.ManyToManyField(
         Author,
-        default = 1
+        default = [0]
     )
     series = models.ForeignKey(
         Series,

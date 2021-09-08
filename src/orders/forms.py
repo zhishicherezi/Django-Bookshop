@@ -3,7 +3,6 @@ from django.forms.models import ModelForm
 from django.forms import Form
 from django.forms.widgets import TextInput
 from . import models
-from accounts.models import CustomUser
 from carts import models as a_models
 
 class OrderCreateForm(Form):

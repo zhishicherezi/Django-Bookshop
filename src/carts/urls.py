@@ -1,5 +1,4 @@
-from accounts.views import RegistrationView, ProfileView
-from django.urls import path, include
+from django.urls import path
 from . import views
 app_name = 'carts'
 

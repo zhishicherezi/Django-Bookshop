@@ -1,5 +1,4 @@
 from django.views.generic.base import TemplateView
-from accounts.views import RegistrationView, ProfileView
 from django.urls import path, include
 from . import views
 app_name = 'orders'
