@@ -1,4 +1,3 @@
-from django.shortcuts import render
 
 # Create your views here.
 from rest_framework import status
@@ -7,13 +6,15 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authentication import BasicAuthentication, TokenAuthentication, SessionAuthentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import RegistrationSerializer, LoginSerializer, UserSerializer
-from .renderers import UserJSONRenderer
+
+from django.urls import reverse_lazy
+from django.core.mail import send_mail
 from django.views.generic.edit import CreateView
 from django.views.generic import DetailView, UpdateView
-from . import models, forms
-from django.urls import reverse_lazy
 
+from .serializers import RegistrationSerializer, LoginSerializer, UserSerializer
+from . import models, forms
+from proj import local_settings, settings
 class RegistrationAPIView(APIView):
 
     """
@@ -78,7 +79,21 @@ class RegistrationView(CreateView):
     model = models.User
     success_url = reverse_lazy('authentication:login')
     form_class = forms.CreateAccountForm
-
+    
+    def form_valid(self, form):
+        email = form.cleaned_data.get('email')
+        username = form.cleaned_data.get('username')
+        first_name = form.cleaned_data.get('first_name')
+        send_mail(
+            subject = f"Спасибо за регистрацию, {username}", 
+            message = f'{first_name}, Вы успешно зарегистрировались в магазине BookShop!',
+            from_email = settings.DEFAULT_FROM_EMAIL,
+            auth_password = local_settings.email_pass,
+            recipient_list= [email,]
+            )
+        self.object = form.save()
+        return super().form_valid(form)
+        
 class ProfileView(DetailView):
     model = models.User
 

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'rest_framework',
     'rest_framework.authtoken',
     'books',
@@ -51,6 +52,9 @@ INSTALLED_APPS = [
     'django_celery_beat',
     'django_celery_results',
     'authentication',
+    'dbmail',
+    'redis_cache'
+
 ]
 
 MIDDLEWARE = [
@@ -128,7 +132,13 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    "default": {
+        'BACKEND': 'redis_cache.cache.RedisCache',
+        'LOCATION': '127.0.0.1:6379',
+    },
 
+}
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -203,3 +213,14 @@ sentry_sdk.init(
 )
 
 
+# Django dm_mailer settings
+DEFAULT_FROM_EMAIL = 'django.test.email.bookshop@gmail.com'
+SERVER_EMAIL = 'django.test.email.bookshop@gmail.com'
+EMAIL_NAME = 'Django test'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'django.test.email.bookshop@gmail.com'
+EMAIL_HOST_PASSWORD = local_settings.email_pass
+EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = 'django.test.email.bookshop@gmail.com'
+SITE_ID = 1

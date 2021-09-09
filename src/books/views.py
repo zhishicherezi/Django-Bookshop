@@ -1,10 +1,10 @@
-from django.shortcuts import redirect, render
-from django.http import HttpResponseRedirect
-from . import models
-from . import forms
+
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, TemplateView, DeleteView, CreateView, UpdateView
 from django.views.generic import TemplateView
+from . import models
+from . import forms
+
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
