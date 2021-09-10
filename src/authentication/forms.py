@@ -17,7 +17,8 @@ class CreateAccountForm(UserCreationForm):
             'city',
             'index',
             'adress1',
-            'adress2'
+            'adress2',
+            'email_notifications'
         ) 
 
 class UserAccountForm(ModelForm):
@@ -39,4 +40,5 @@ class UpdateProfiletForm(UserCreationForm):
             'city',
             'index',
             'adress1',
+            'email_notifications'
         ) 

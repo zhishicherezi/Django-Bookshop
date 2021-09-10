@@ -64,7 +64,9 @@ class UserManager(BaseUserManager):
         blank=True,
     )
 
-    def create_user(self, username, email, first_name, last_name, password=None, phone=None, country=None, city=None, adress1=None, adress2=None, index=None, extra=None):
+    email_notifications = models.BooleanField(verbose_name='Email подписка на рассылку', default=False)
+
+    def create_user(self, username, email, first_name, last_name, password=None, phone=None, country=None, city=None, adress1=None, adress2=None, index=None, extra=None, email_notifications=None):
         """ Создает и возвращает пользователя с имэйлом, паролем и именем. """
         if username is None:
             raise TypeError('Users must have a username.')
@@ -75,7 +77,7 @@ class UserManager(BaseUserManager):
         if phone is None:
             raise TypeError('Users must have a phone address.')
 
-        user = self.model(username=username, first_name=first_name, last_name=last_name, email=self.normalize_email(email), phone = phone, country = country, city = city, index=index, adress1=adress1, adress2=adress2, extra=extra)
+        user = self.model(username=username, first_name=first_name, last_name=last_name, email=self.normalize_email(email), phone = phone, country = country, city = city, index=index, adress1=adress1, adress2=adress2, extra=extra, email_notifications=email_notifications)
         user.set_password(password)
         user.save()
 
@@ -101,6 +103,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    email_notifications = models.BooleanField(verbose_name='Email подписка на рассылку', default=False)
     
     # Дополнительные данные пользователя для заказа
     first_name = models.CharField(

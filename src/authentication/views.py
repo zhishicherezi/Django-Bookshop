@@ -86,7 +86,8 @@ class RegistrationView(CreateView):
         first_name = form.cleaned_data.get('first_name')
         send_mail(
             subject = f"Спасибо за регистрацию, {username}", 
-            message = f'{first_name}, Вы успешно зарегистрировались в магазине BookShop!',
+            message = f'''{first_name}, Вы успешно зарегистрировались в магазине BookShop!
+            Также, вы можете подключить Email рассылку в личном кабинете''',
             from_email = settings.DEFAULT_FROM_EMAIL,
             auth_password = local_settings.email_pass,
             recipient_list= [email,]
@@ -108,6 +109,7 @@ class ProfileUpdateView(UpdateView):
         'city',
         'index',
         'adress1',
+        'email_notifications'
     ]
 
     def get_success_url(self):

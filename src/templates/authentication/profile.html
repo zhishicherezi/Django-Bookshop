@@ -22,13 +22,18 @@
                Менеджер
                {% else %}
                Пользователь
-               {% endif%}
+               {% endif %}
                <br>  
                <b>Страна:  </b> {{ user.country }}<br>
                <b>Город:  </b> {{ user.city }}<br>
                <b>Индекс:  </b> {{ user.index }}<br>
                <b>Адрес:  </b> {{ user.adress1 }}<br>
                <b>Дополнительынй Адрес:  </b> {{ user.adress2 }}<br>
+               {% if user.email_notifications%}
+               <b>Email подписка:  </b>&#9989 Активна<br></p>
+               {% else %}
+               <b>Email подписка:  </b>&#10060 Неактивна<br></p>
+               {% endif %}
                <b>Дополнительная инф.:  </b> {{ user.extra }}<br></p>
 
                {% if user.username == request.user.username or user.is_staff %}

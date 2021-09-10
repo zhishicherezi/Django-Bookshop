@@ -1,12 +1,12 @@
-
+from django.core.mail import send_mass_mail
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, TemplateView, DeleteView, CreateView, UpdateView
 from django.views.generic import TemplateView
 from . import models
 from . import forms
-
+from authentication.models import User
 from django.contrib.auth.mixins import PermissionRequiredMixin
-
+from proj import settings, local_settings
 
 # Create your views here.
 
@@ -58,6 +58,28 @@ class BookCreateView(PermissionRequiredMixin, CreateView):
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
     permission_required = 'books.add_book'
+
+# Отправка писем подписчикам о публикации книги
+    def form_valid(self, form):
+        
+        users = User.objects.all().filter(email_notifications=True)
+        email_list = []
+        
+        for user in users:
+            email_list.append(user.email)
+
+        book_name = form.cleaned_data['book_name']
+        author = form.cleaned_data['author'][0]
+        subject = f'Новая книга уже на сайте!'
+        message = f'{book_name} от автора {author} появилась в магазине'
+        from_email = settings.DEFAULT_FROM_EMAIL
+        # цикл для скрытия списка получателей
+        messages = [(subject, message, from_email, [recipient]) for recipient in email_list]
+        send_mass_mail(messages)
+
+        self.object = form.save()
+        return super().form_valid(form)
+            
 class BookUpdateView(PermissionRequiredMixin, UpdateView):
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
