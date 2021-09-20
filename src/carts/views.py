@@ -1,12 +1,10 @@
-from django.shortcuts import render
-from django.views.generic import DetailView, ListView, RedirectView
-from django.views.generic.edit import DeleteView, UpdateView
+from django.views.generic import RedirectView
+from django.views.generic.edit import UpdateView
 from django.views import View
 from django.http import HttpResponseRedirect
 from . import models, forms
 from books import models as books_models
 from django.urls import reverse_lazy
-from django.core.mail import send_mail
 
 class CartView(UpdateView):
     template_name = 'carts/cart-edit.html'

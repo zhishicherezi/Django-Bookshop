@@ -1,6 +1,5 @@
 from django.urls import path
-from books import views as book_view
-from books.views import BookListView, BookDetailView, BookDeleteView, BookUpdateView, BookCreateView, Home
+from books.views import BookListView, BookDetailView, BookDeleteView, BookUpdateView, BookCreateView
 from books.views import AuthorListView, AuthorDetailView, AuthorCreateView, AuthorUpdateView, AuthorDeleteView
 from books.views import SeriesCreateView, SeriesDeleteView, SeriesDetailView, SeriesListView, SeriesUpdateView
 from books.views import GenreCreateView, GenreDeleteView, GenreDetailView, GenreListView, GenreUpdateView

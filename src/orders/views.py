@@ -1,13 +1,12 @@
-from django.views.generic import CreateView, FormView, ListView, DetailView
+from django.views.generic import FormView, ListView, DetailView
 from django.views.generic.edit import DeleteView, UpdateView
 from . import models, forms
 from django.views.generic.base import TemplateView
 
-from django.http import HttpResponseRedirect, request
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from carts import models as cart_models
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.contrib.auth.models import AnonymousUser
 # Create your views here.
 
 class CreateOrderView(FormView):

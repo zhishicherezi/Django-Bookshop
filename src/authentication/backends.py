@@ -44,11 +44,6 @@ class JWTAuthentication(authentication.BaseAuthentication):
             # Некорректный заголовок токена, какие-то лишние пробельные символы
             return None
 
-        # JWT библиотека которую мы используем, обычно некорректно обрабатывает
-        # тип bytes, который обычно используется стандартными библиотеками
-        # Python3 (HINT: использовать PyJWT). Чтобы точно решить это, нам нужно
-        # декодировать prefix и token. Это не самый чистый код, но это хорошее
-        # решение, потому что возможна ошибка, не сделай мы этого.
         prefix = auth_header[0].decode('utf-8')
         token = auth_header[1].decode('utf-8')
 
@@ -56,8 +51,6 @@ class JWTAuthentication(authentication.BaseAuthentication):
             # Префикс заголовка не тот, который мы ожидали - отказ.
             return None
 
-        # К настоящему моменту есть "шанс", что аутентификация пройдет успешно.
-        # Мы делегируем фактическую аутентификацию учетных данных методу ниже.
         return self._authenticate_credentials(request, token)
 
     def _authenticate_credentials(self, request, token):
