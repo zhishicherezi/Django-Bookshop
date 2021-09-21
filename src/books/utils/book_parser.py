@@ -31,7 +31,6 @@ def get_content(html):
             }
         )
 
-    print(books)
 
 
 def parse():

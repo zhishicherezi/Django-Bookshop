@@ -38,7 +38,6 @@ class BookListView(ListView):
         elif order == 'book_name':
             return qs.order_by('book_name')
         elif order == 'rating':
-            print(qs.order_by('-rating'))
             return qs.order_by('-rating')[:50] 
            
         elif search:
@@ -59,26 +58,26 @@ class BookCreateView(PermissionRequiredMixin, CreateView):
     redirect_field_name = 'redirect_to'
     permission_required = 'books.add_book'
 
-# Отправка писем подписчикам о публикации книги
-    def form_valid(self, form):
+# # Отправка писем подписчикам о публикации книги
+#     def form_valid(self, form):
         
-        users = User.objects.all().filter(email_notifications=True)
-        email_list = []
+#         users = User.objects.all().filter(email_notifications=True)
+#         email_list = []
         
-        for user in users:
-            email_list.append(user.email)
+#         for user in users:
+#             email_list.append(user.email)
 
-        book_name = form.cleaned_data['book_name']
-        author = form.cleaned_data['author'][0]
-        subject = f'Новая книга уже на сайте!'
-        message = f'{book_name} от автора {author} появилась в магазине'
-        from_email = settings.DEFAULT_FROM_EMAIL
-        # цикл для скрытия списка получателей
-        messages = [(subject, message, from_email, [recipient]) for recipient in email_list]
-        send_mass_mail(messages)
+#         book_name = form.cleaned_data['book_name']
+#         author = form.cleaned_data['author'][0]
+#         subject = f'Новая книга уже на сайте!'
+#         message = f'{book_name} от автора {author} появилась в магазине'
+#         from_email = settings.DEFAULT_FROM_EMAIL
+#         # цикл для скрытия списка получателей
+#         messages = [(subject, message, from_email, [recipient]) for recipient in email_list]
+#         send_mass_mail(messages)
 
-        self.object = form.save()
-        return super().form_valid(form)
+#         self.object = form.save()
+#         return super().form_valid(form)
             
 class BookUpdateView(PermissionRequiredMixin, UpdateView):
     login_url = '/login/'

@@ -30,7 +30,6 @@ class ProfileUpdateView(UpdateView):
     ]
 
     def get_success_url(self):
-        print(self.request.session.get('_auth_user_id'))       
         user_id = self.request.session.get('_auth_user_id')  #ID авторизованного пользователя
         
         return reverse_lazy('accounts:profile', kwargs={'pk': user_id})
