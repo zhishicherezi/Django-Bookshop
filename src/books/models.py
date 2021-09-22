@@ -4,7 +4,8 @@ from django.urls import reverse
 class Author(models.Model):
     author = models.CharField(
         verbose_name='Автор',
-        max_length=35
+        max_length=35,
+        unique=True
     )
     def __str__(self) -> str:
         return f"{self.author}"
@@ -84,7 +85,7 @@ class Book(models.Model):
     )
     pereplet = models.BooleanField(
         verbose_name='Твердый переплет',
-        blank = True
+        blank = True, 
     )
     ISBN = models.CharField(max_length=100,
         verbose_name='ISBN',
@@ -123,7 +124,9 @@ class Book(models.Model):
     )
 
     def __str__(self) -> str:
-        return f"Название : {self.book_name} Автор : {self.author}"
+        print(self.author.first())
+        authors = ", ".join(author.author for author in self.author.all())
+        return f"Название : {self.book_name} Авторы : {authors}"
 
     def get_absolute_url(self):
         return reverse('books:book-view', args = [self.pk])

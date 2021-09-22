@@ -13,8 +13,9 @@
         <div class="card-body">
         <font color="black" face="Arial">
           <h5 class="card-title"> Автор
-            
-            <a href="{% url 'books:author-view' book.pk %}" >{% for author in book.author.all %}{{ author|upper }}<br/>{% endfor %}</a>
+            {% for author in book.author.all %}
+            <a href="{% url 'books:author-view' author.pk %}" >{{ author|upper }}<br/></a>
+            {% endfor %}
           </h5>
                 <p class="card-text"><h1>{{ book.book_name }}</h1><br>
                   <b>Цена: </b> {{ book.book_price }}<br>
